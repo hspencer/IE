@@ -7,6 +7,8 @@ function setup() {
   textFont("Arial", 36);
   fill(0);
   text("Imagen Escrita 2021", 20, 48);
+  let b = new Boid(width/2, height, 20, -HALF_PI);
+  boids.push(b);
 }
 
 function draw() {
@@ -46,7 +48,7 @@ class Boid {
   
   go(){
     noiseSeed(this.seed);
-    this.a += (noise(millis()/800) - 0.5) * 0.333;
+    this.a += (noise(millis()/this.t*80) - 0.475) * 0.33;
     
     this.x += cos(this.a) * 2;
     this.y += sin(this.a) * 2;
@@ -54,7 +56,7 @@ class Boid {
     this.t *= 0.996;
     
     if(unoEn(80)){
-      let nuevaRama = new Boid(this.x, this.y, this.t * 0.9, random(-1, 1)*HALF_PI);
+      let nuevaRama = new Boid(this.x, this.y, this.t * 0.9, this.a + random(-.5, .5));
       boids.push(nuevaRama)
     }
   }
@@ -68,6 +70,8 @@ function mousePressed(){
 
 function keyTyped(){
   if(key === " "){
+    fill(0);
+  text("Imagen Escrita 2021", 20, 48);
       background(220);
   }
   if(key === "b"){
